@@ -1,0 +1,119 @@
+<html>
+<head>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background: #f1f1f1;
+}
+
+.sidebar {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidebar a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.content {
+  margin-left: 200px;
+  margin-top: 40px;
+  padding: 10px;
+  height: 100px;
+  font-size: 150%;
+}
+h1 {
+  position: absolute;
+  top: 5%;
+  left: 35%;
+  font-size: 200%;
+}
+
+</style>
+<script>		
+window.onload = function loadPage () {
+	var counter=0;
+	const existingList = JSON.parse(localStorage.getItem('list')) || [];
+	const list = document.getElementById('list');
+	list.innerHTML = '';
+	
+	existingList.forEach((item, index) => {
+		const li = document.createElement('li');
+		const button = document.createElement('button');
+		button.textContent = 'Completed';
+		button.onclick = () => {
+			existingList.splice(index, 1);
+			counter++;
+			document.getElementById("content").innerHTML = counter;
+			localStorage.setItem('list', JSON.stringify(existingList));
+			loadPage();
+		};
+		li.textContent = item;
+		li.appendChild(button);
+		list.appendChild(li);
+	});
+	const exList = JSON.parse(localStorage.getItem('list1')) || [];
+	const list1 = document.getElementById('list1');
+	list1.innerHTML = '';
+
+	exList.forEach((item, index) => {
+		const li = document.createElement('li');
+		const button = document.createElement('button');
+		button.textContent = 'Completed';
+		button.onclick = () => {
+			exList.splice(index, 1);
+			counter++;
+			document.getElementById("content").innerHTML = counter;
+			localStorage.setItem('list1', JSON.stringify(exList));
+			loadPage();
+		};
+		li.textContent = item;
+		li.appendChild(button);
+		list1.appendChild(li);
+	});
+}
+function clearTasks() {
+window.localStorage.clear();
+location.reload();
+}
+</script>
+	<body>
+	<title> Home </title>
+		<div class="sidebar">
+			<a href="AddTask.html">Add Tasks</a>
+			<a href="calendar.html">Calender</a>
+			<a href="createonlinemeeting.html">Create Online Meeting</a>
+		</div>
+		<h1><u>Welcome to Task Manager Homepage</u></h1><br><br>
+		<div class="content">
+		Tasks: <br><br>
+		<span id="list"></span><br><br>		
+		Meetings: <br><br>
+		<span id="list1"></span><br><br>
+		<button id="clearButton" onclick="clearTasks()">Clear Tasks</button><br>
+		Tasks/Meetings Completed<p id="counter"></p>
+		<p id="content"></p>
+		</div>
+	</body>
+</head>
+</html>
